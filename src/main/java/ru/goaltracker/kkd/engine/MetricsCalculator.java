@@ -14,7 +14,7 @@ import ru.goaltracker.kkd.engine.rules.CascadeNoParentRule;
 /**
  * Расчёт метрик подразделения по снимку данных и найденным проблемам.
  * Подразделение считается вместе со всеми дочерними ({@link UnitTree#descendantsOrSelf}).
- * Нет активных целей — доли равны null («не из чего считать»), а не 0 («всё плохо»).
+ * Нет активных целей — все метрики равны null («не из чего считать»), а не 0 («всё плохо» / «всё чисто»).
  */
 public final class MetricsCalculator {
 
@@ -44,7 +44,8 @@ public final class MetricsCalculator {
         Map<Metric, BigDecimal> result = new EnumMap<>(Metric.class);
         result.put(Metric.CLEAN_GOALS_SHARE, share(goals.size() - goalsWithIssues.size(), goals.size()));
         result.put(Metric.CASCADE_COVERAGE, share(belowBlock - goalsOutOfCascade.size(), belowBlock));
-        result.put(Metric.ISSUES_TOTAL, BigDecimal.valueOf(scoped.size()));
+        // Нет активных целей — проверять было нечего: и «найдено проблем» тоже null, а не 0
+        result.put(Metric.ISSUES_TOTAL, goals.isEmpty() ? null : BigDecimal.valueOf(scoped.size()));
         return result;
     }
 

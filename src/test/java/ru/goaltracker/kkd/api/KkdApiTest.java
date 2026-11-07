@@ -109,7 +109,8 @@ class KkdApiTest {
                 .andExpect(jsonPath("$.metrics[0].value").value(nullValue()))
                 .andExpect(jsonPath("$.metrics[0].delta").value(nullValue()))
                 .andExpect(jsonPath("$.metrics[0].trend").value(nullValue()))
-                .andExpect(jsonPath("$.metrics[2].value").value(0));
+                .andExpect(jsonPath("$.metrics[2].value").value(nullValue()))
+                .andExpect(jsonPath("$.issues_by_severity[0].current").value(0));
     }
 
     @Test

@@ -64,12 +64,13 @@ class MetricsCalculatorTest {
     }
 
     @Test
-    @DisplayName("в подразделении нет активных целей — доли null, а не 0; проблем 0")
+    @DisplayName("в подразделении нет активных целей — все три метрики null, а не 0")
     void emptyUnitGivesNull() {
         Map<Metric, BigDecimal> empty = MetricsCalculator.calculate(snapshot, engine.check(snapshot), tree, "EMPTY");
+        assertThat(empty).containsKeys(Metric.values());
         assertThat(empty.get(Metric.CLEAN_GOALS_SHARE)).isNull();
         assertThat(empty.get(Metric.CASCADE_COVERAGE)).isNull();
-        assertThat(empty.get(Metric.ISSUES_TOTAL)).isEqualByComparingTo("0");
+        assertThat(empty.get(Metric.ISSUES_TOTAL)).isNull();
     }
 
     @Test

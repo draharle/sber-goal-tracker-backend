@@ -39,7 +39,7 @@ INSERT INTO kkd_issue (run_id, fingerprint, rule_code, severity, object_type, ob
 --rollback DELETE FROM kkd_issue WHERE run_id = 'RUN-001';
 
 --changeset kkd:005-demo-run-001-metrics context:demo
---comment: Метрики RUN-001 по каждому подразделению с учётом дочерних. CIB-TRADE без целей — доли null
+--comment: Метрики RUN-001 по каждому подразделению с учётом дочерних. CIB-TRADE без целей — все метрики null
 INSERT INTO kkd_run_metric (run_id, unit_id, metric_key, value) VALUES
 ('RUN-001', 'B2B',       'clean_goals_share', 47.8),
 ('RUN-001', 'B2B',       'cascade_coverage',  86.4),
@@ -55,5 +55,5 @@ INSERT INTO kkd_run_metric (run_id, unit_id, metric_key, value) VALUES
 ('RUN-001', 'CIB-REG',   'issues_total',      4),
 ('RUN-001', 'CIB-TRADE', 'clean_goals_share', NULL),
 ('RUN-001', 'CIB-TRADE', 'cascade_coverage',  NULL),
-('RUN-001', 'CIB-TRADE', 'issues_total',      0);
+('RUN-001', 'CIB-TRADE', 'issues_total',      NULL);
 --rollback DELETE FROM kkd_run_metric WHERE run_id = 'RUN-001';

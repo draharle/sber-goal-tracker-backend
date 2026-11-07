@@ -49,17 +49,17 @@ public record Issue(String ruleCode, Severity severity, String objectType, Strin
         return ruleCode + ":" + objectId;
     }
 
-    /** Стабильный между прогонами id проблемы для API: ISS- + первые 10 символов SHA-1 отпечатка. */
+    /** Стабильный между прогонами id проблемы для API: ISS- + первые 10 hex-символов SHA-256 отпечатка. */
     public String publicId() {
         return publicId(fingerprint());
     }
 
     public static String publicId(String fingerprint) {
         try {
-            byte[] hash = MessageDigest.getInstance("SHA-1").digest(fingerprint.getBytes(StandardCharsets.UTF_8));
+            byte[] hash = MessageDigest.getInstance("SHA-256").digest(fingerprint.getBytes(StandardCharsets.UTF_8));
             return "ISS-" + HexFormat.of().formatHex(hash).substring(0, 10).toUpperCase(Locale.ROOT);
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("SHA-1 is not available", e);
+            throw new IllegalStateException("SHA-256 is not available", e);
         }
     }
 }
