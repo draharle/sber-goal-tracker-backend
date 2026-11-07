@@ -1,0 +1,25 @@
+# Все настройки берутся из переменных окружения; после двоеточия — значение по умолчанию.
+# Список переменных с пояснениями — .env.example.
+spring:
+  application:
+    name: goal-tracker-kkd
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/goal_tracker}
+    username: ${DB_USERNAME:goal_tracker}
+    password: ${DB_PASSWORD:goal_tracker}
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    # demo — накатить демо-данные (цели и прогоны). Другое значение (например, prod) — только схема и справочник правил
+    contexts: ${LIQUIBASE_CONTEXTS:demo}
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    time-zone: ${KKD_ZONE:Europe/Moscow}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+kkd:
+  # Дата снимка для прогонов (ГГГГ-ММ-ДД). Пусто — текущая дата
+  today: ${KKD_TODAY:}
+  run-on-startup: ${KKD_RUN_ON_STARTUP:true}
+  zone: ${KKD_ZONE:Europe/Moscow}
