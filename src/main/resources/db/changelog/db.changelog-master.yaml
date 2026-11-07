@@ -1,0 +1,31 @@
+# Главный файл миграций. Порядок include = порядок наката; откат идёт в обратном порядке.
+# Тег baseline стоит до первой таблицы: «откатить всё» = liquibase rollback до тега baseline.
+databaseChangeLog:
+  - changeSet:
+      id: 000-baseline
+      author: kkd
+      comment: Точка отката «пустая схема»
+      changes:
+        - tagDatabase:
+            tag: baseline
+
+  # Схема: оргструктура, сотрудники, цели, КР
+  - include:
+      file: changes/001-org-and-goals.sql
+      relativeToChangelogFile: true
+  # Схема: результаты ККД (справочник правил, прогоны, проблемы, метрики прогона)
+  - include:
+      file: changes/002-kkd-results.sql
+      relativeToChangelogFile: true
+  # Справочник правил — нужен всегда, не только в демо
+  - include:
+      file: changes/003-rule-catalog.sql
+      relativeToChangelogFile: true
+  # Демо-данные (context = demo): оргструктура, цели и КР
+  - include:
+      file: changes/004-demo-goals.sql
+      relativeToChangelogFile: true
+  # Демо-прогоны (context = demo): RUN-001 (исторический) и RUN-002 (упавший)
+  - include:
+      file: changes/005-demo-runs.sql
+      relativeToChangelogFile: true
